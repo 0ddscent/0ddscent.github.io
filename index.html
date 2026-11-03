@@ -157,13 +157,16 @@ function render(data) {
   const calls = data.calls.slice().sort((a, b) => b.posted.localeCompare(a.posted));
   const resolved = calls.filter(isResolved);
   const open = calls.filter(c => !isResolved(c)).sort((a, b) => a.resolves.localeCompare(b.resolves));
-  const next = open[0];
+  const today = new Date().toISOString().slice(0, 10);
+  const overdue = open.filter(c => c.resolves < today);
+  const upcoming = open.filter(c => c.resolves >= today);
+  const next = upcoming[0] || open[0];
 
   document.getElementById("tiles").innerHTML = [
     ["Calls logged", calls.length, "since " + fmtDate(calls[calls.length - 1].posted)],
     ["Resolved", resolved.length, "with a public receipt"],
     ["Waiting", open.length, "receipts on the way"],
-    ["Next receipt", next ? fmtDate(next.resolves).replace(/, \d{4}/, "") : "-", next ? open.filter(c => c.resolves === next.resolves).map(c => c.id).join(", ") : ""],
+    ["Next receipt", next ? fmtDate(next.resolves).replace(/, \d{4}/, "") : "-", (next ? upcoming.filter(c => c.resolves === next.resolves).map(c => c.id).join(", ") : "") + (overdue.length ? ` · ${overdue.map(c => c.id).join(", ")} awaiting result` : "")],
   ].map(([k, v, s]) => `<div class="tile"><div class="k">${k}</div><div class="v">${v}</div><div class="s">${s}</div></div>`).join("");
 
   // leaderboard
@@ -196,7 +199,7 @@ function render(data) {
         <span class="br">${res ? b.toFixed(2) : ""}</span></div>`;
     }).join("");
     const pill = res ? `<span class="pill ${c.outcome ? "yes" : "no"}">Resolved: ${c.outcome ? "YES" : "NO"}</span>`
-                     : `<span class="pill open">Receipt ${fmtDate(c.resolves).replace(/, \d{4}/, "")}</span>`;
+                     : c.resolves < new Date().toISOString().slice(0, 10) ? `<span class="pill open">Awaiting result</span>` : `<span class="pill open">Receipt ${fmtDate(c.resolves).replace(/, \d{4}/, "")}</span>`;
     const links = [
       c.call_post && `<a href="${c.call_post}" target="_blank" rel="noopener">Call on X</a>`,
       c.followup_post && `<a href="${c.followup_post}" target="_blank" rel="noopener">${res ? "Receipt" : "Thread"}</a>`,
