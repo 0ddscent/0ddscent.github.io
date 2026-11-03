@@ -194,7 +194,7 @@ function render(data) {
     const links = [
       c.call_post && `<a href="${c.call_post}" target="_blank" rel="noopener">Call on X</a>`,
       c.followup_post && `<a href="${c.followup_post}" target="_blank" rel="noopener">${res ? "Receipt" : "Thread"}</a>`,
-      c.source && `<a href="${c.source}" target="_blank" rel="noopener">Market</a>`,
+      c.source && `<a href="${/polymarket\.com/.test(c.source) ? c.source + (c.source.includes("?") ? "&" : "?") + "r=0ddscent" : c.source}" target="_blank" rel="noopener">Market</a>`,
     ].filter(Boolean).join("");
     return `<article class="call" data-state="${res ? "resolved" : "open"}">
       <div class="top"><span>${c.id} · posted ${fmtDate(c.posted)}</span>${pill}</div>
