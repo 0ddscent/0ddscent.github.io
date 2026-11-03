@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-01",
+  "updated": "2026-11-03",
   "calls": [
     {
       "id": "R001",
@@ -16,7 +16,7 @@
       "crowd": null,
       "outcome": 0,
       "call_post": "https://x.com/0ddscent/status/2111508483220901946",
-      "followup_post": null
+      "followup_post": "https://x.com/0ddscent/status/2117683304434462995"
     },
     {
       "id": "R002",
@@ -101,7 +101,7 @@
       "crowd": null,
       "outcome": 0,
       "call_post": "https://x.com/0ddscent/status/2113683969002594477",
-      "followup_post": null
+      "followup_post": "https://x.com/0ddscent/status/2117683304434462995"
     },
     {
       "id": "R011",
