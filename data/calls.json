@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-04",
+  "updated": "2026-11-05",
   "calls": [
     {
       "id": "R001",
@@ -126,7 +126,7 @@
       "question": "Will Scott Colom (D) win the 2026 U.S. Senate election in Mississippi, including any runoff?",
       "resolves": "2026-11-30",
       "source": "https://polymarket.com/event/mississippi-senate-election-winner",
-      "source_note": null,
+      "source_note": "Not called yet. Nov 5: Polymarket 96.6% ($5.1M vol), Colom ahead by 1,138 votes with 96% counted (TIME). Affidavit ballots get 5 business days.",
       "market": 0.83,
       "claude": 0.45,
       "chatgpt": 0.52,
