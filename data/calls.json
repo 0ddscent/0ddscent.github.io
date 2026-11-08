@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-05",
+  "updated": "2026-11-08",
   "calls": [
     {
       "id": "R001",
@@ -135,6 +135,23 @@
       "crowd": null,
       "outcome": null,
       "call_post": "https://x.com/0ddscent/status/2117925613390434507",
+      "followup_post": null
+    },
+    {
+      "id": "R015",
+      "posted": "2026-11-07",
+      "question": "Will Jensen Huang cease to be CEO of NVIDIA before January 1, 2029?",
+      "resolves": "2029-01-01",
+      "source": "https://kalshi.com/markets/kxceonvda/nvidia-ceo-leaving/kxceonvda-01jan33",
+      "source_note": "Kalshi 'Before Jan 1, 2029' at 18% on Nov 7, up from ~11% after the NYT report on US intelligence and an alleged Chinese spy. Thin market: $269 volume.",
+      "market": 0.18,
+      "claude": 0.06,
+      "chatgpt": 0.15,
+      "gemini": 0.12,
+      "grok": 0.18,
+      "crowd": null,
+      "outcome": null,
+      "call_post": "https://x.com/0ddscent/status/2119152901763297475",
       "followup_post": null
     }
   ]
