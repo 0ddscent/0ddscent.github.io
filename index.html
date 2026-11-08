@@ -205,12 +205,13 @@ function render(data) {
       c.followup_post && `<a href="${c.followup_post}" target="_blank" rel="noopener">${res ? "Receipt" : "Thread"}</a>`,
       c.source && `<a href="${/polymarket\.com/.test(c.source) ? c.source + (c.source.includes("?") ? "&" : "?") + "r=0ddscent" : c.source}" target="_blank" rel="noopener">Market</a>`,
     ].filter(Boolean).join("");
+    const pm = c.polymarket || (c.source && /polymarket\.com/.test(c.source) ? c.source : null);
     return `<article class="call" data-state="${res ? "resolved" : "open"}">
       <div class="top"><span>${c.id} · posted ${fmtDate(c.posted)}</span>${pill}</div>
       <h3>${c.question}</h3>
       ${bars}
       ${c.source_note ? `<div class="note">Market note: ${c.source_note}</div>` : ""}
-      ${!res && c.source && /polymarket\.com/.test(c.source) ? `<a class="trade" href="${c.source + (c.source.includes("?") ? "&" : "?") + "r=0ddscent"}" target="_blank" rel="noopener sponsored">Trade this on Polymarket →</a>` : ""}
+      ${!res && pm ? `<a class="trade" href="${pm + (pm.includes("?") ? "&" : "?") + "r=0ddscent"}" target="_blank" rel="noopener sponsored">Trade this on Polymarket →</a>` : ""}
       <div class="links">${links}</div></article>`;
   }).join("");
 
