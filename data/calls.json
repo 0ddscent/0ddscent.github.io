@@ -143,7 +143,7 @@
       "question": "Will Jensen Huang cease to be CEO of NVIDIA before January 1, 2029?",
       "resolves": "2029-01-01",
       "source": "https://kalshi.com/markets/kxceonvda/nvidia-ceo-leaving/kxceonvda-01jan33",
-      "source_note": "Kalshi 'Before Jan 1, 2029' at 18% on Nov 7, up from ~11% after the NYT report on US intelligence and an alleged Chinese spy. Thin market: $269 volume.",
+      "source_note": "Kalshi 'Before Jan 1, 2029' at 18% on Nov 7, up from ~11% after the NYT report on US intelligence and an alleged Chinese spy. Thin market: $269 volume. Nov 8: Huang's letter, Nvidia board opens an independent investigation. Polymarket opened 'Jensen Huang announced resignation or removal by December 31?': 19% at open, 16% at 23:00 UTC.",
       "market": 0.18,
       "claude": 0.06,
       "chatgpt": 0.15,
@@ -152,7 +152,8 @@
       "crowd": null,
       "outcome": null,
       "call_post": "https://x.com/0ddscent/status/2119152901763297475",
-      "followup_post": null
+      "followup_post": "https://x.com/0ddscent/status/2119473564521029862",
+      "polymarket": "https://polymarket.com/event/jensen-huang-announced-resignation-or-removal-by-december-31"
     }
   ]
 }
