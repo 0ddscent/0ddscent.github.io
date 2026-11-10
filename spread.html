@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Spread Calculator · 0ddscent</title>
+<meta name="description" content="How much does the middleman take from your prediction market bet? Enter the buy and sell price and your stake.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f8f7fb;--surface:#fff;--ink:#16142a;--muted:#706e8a;--line:#e7e4f0;--accent:#8a4ae0;--good:#1f7a4d;--bad:#b4372f}
+@media (prefers-color-scheme:dark){:root{--bg:#0f0e17;--surface:#1a1826;--ink:#f1effa;--muted:#a3a0bb;--line:#2c2940;--accent:#b38bff;--good:#4cc38a;--bad:#ff6b5e}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.5}
+main{max-width:640px;margin:0 auto;padding:32px 16px 64px}
+h1{font-size:28px;font-weight:900;margin:0 0 6px;letter-spacing:-.02em}
+.lead{color:var(--muted);margin:0 0 24px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px}
+.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+@media (max-width:520px){.grid{grid-template-columns:1fr}}
+label{display:block;font-size:13px;font-weight:600;color:var(--muted);margin-bottom:6px}
+.inp{display:flex;align-items:center;border:1px solid var(--line);border-radius:10px;padding:0 10px;background:var(--bg)}
+.inp span{color:var(--muted);font-weight:600}
+input{width:100%;border:0;background:transparent;color:var(--ink);font:600 20px Inter,sans-serif;padding:10px 4px;outline:none}
+.big{font-size:44px;font-weight:900;letter-spacing:-.02em;color:var(--bad);margin:4px 0}
+.row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--line)}
+.row:first-of-type{border-top:0}
+.row b{font-weight:700;text-align:right}
+.good{color:var(--good)}.bad{color:var(--bad)}
+.note{font-size:13px;color:var(--muted)}
+a{color:var(--accent)}
+.err{color:var(--bad);font-weight:600;display:none}
+</style>
+</head>
+<body>
+<main>
+  <h1>Who gets paid when you bet?</h1>
+  <p class="lead">Works for any YES/NO contract on Polymarket, Kalshi or any other prediction market. Enter the two prices for the side you want to buy and your stake. See what the spread costs you before anything happens.</p>
+  <p class="note">Where to find the prices: open the market's order book. The lowest ask is your buy price. The highest bid is your sell price.</p>
+
+  <div class="card">
+    <div class="grid">
+      <div><label for="ask">Buy price (ask)</label><div class="inp"><input id="ask" type="number" step="0.1" min="0.1" max="99.9" value="16" inputmode="decimal"><span>¢</span></div></div>
+      <div><label for="bid">Sell price (bid)</label><div class="inp"><input id="bid" type="number" step="0.1" min="0" max="99.9" value="14" inputmode="decimal"><span>¢</span></div></div>
+      <div><label for="stake">Your bet</label><div class="inp"><span>$</span><input id="stake" type="number" step="1" min="1" value="100" inputmode="decimal"></div></div>
+    </div>
+    <p class="err" id="err">The sell price must be lower than the buy price.</p>
+  </div>
+
+  <div class="card" id="out">
+    <div class="note">Cash out one second after you buy and you get back</div>
+    <div class="big" id="back">$87.50</div>
+    <div class="row"><span>Gone to the spread</span><b class="bad" id="lost">$12.50 (12.5%)</b></div>
+    <div class="row"><span>Shares you get</span><b id="shares">625</b></div>
+    <div class="row"><span>Market has to move before you break even</span><b id="be">+2.0¢</b></div>
+    <div class="row"><span>Payout if your side wins</span><b class="good" id="win">$625.00</b></div>
+    <div class="row"><span>Implied odds you are paying for</span><b id="odds">16%</b></div>
+  </div>
+
+  <p class="note">Assumes your whole bet fills at the best price. Big bets usually climb the order book and pay more. Some venues also charge fees on top. This is a math tool, not financial advice.</p>
+  <p class="note">Made by <a href="https://x.com/0ddscent" target="_blank" rel="noopener">@0ddscent</a>. We score AI models against prediction markets: <a href="./">see the track record</a>.</p>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const usd=v=>'$'+v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+function calc(){
+  const ask=parseFloat($('ask').value)/100, bid=parseFloat($('bid').value)/100, stake=parseFloat($('stake').value);
+  const ok=ask>0&&ask<1&&bid>=0&&bid<ask&&stake>0;
+  $('err').style.display=(ask>0&&bid>=ask)?'block':'none';
+  $('out').style.opacity=ok?1:.4;
+  if(!ok) return;
+  const shares=stake/ask, back=shares*bid, lost=stake-back;
+  $('back').textContent=usd(back);
+  $('lost').textContent=usd(lost)+' ('+(lost/stake*100).toFixed(1)+'%)';
+  $('shares').textContent=shares.toLocaleString('en-US',{maximumFractionDigits:1});
+  $('be').textContent='+'+((ask-bid)*100).toFixed(1)+'¢';
+  $('win').textContent=usd(shares);
+  $('odds').textContent=(ask*100).toFixed(1).replace(/\.0$/,'')+'%';
+}
+['ask','bid','stake'].forEach(i=>$(i).addEventListener('input',calc));
+calc();
+</script>
+</body>
+</html>
