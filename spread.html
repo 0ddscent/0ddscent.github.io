@@ -29,6 +29,7 @@ input{width:100%;border:0;background:transparent;color:var(--ink);font:600 20px 
 .good{color:var(--good)}.bad{color:var(--bad)}
 .note{font-size:13px;color:var(--muted)}
 a{color:var(--accent)}
+.sel{width:100%;border:1px solid var(--line);border-radius:10px;padding:12px 10px;background:var(--bg);color:var(--ink);font:600 15px Inter,sans-serif}
 .err{color:var(--bad);font-weight:600;display:none}
 </style>
 </head>
@@ -44,20 +45,34 @@ a{color:var(--accent)}
       <div><label for="bid">Sell price (bid)</label><div class="inp"><input id="bid" type="number" step="0.1" min="0" max="99.9" value="14" inputmode="decimal"><span>¢</span></div></div>
       <div><label for="stake">Your bet</label><div class="inp"><span>$</span><input id="stake" type="number" step="1" min="1" value="100" inputmode="decimal"></div></div>
     </div>
+    <div style="margin-top:12px"><label for="plat">Platform fee</label>
+      <select id="plat" class="sel">
+        <option value="0.04">Polymarket: Finance, Politics, Tech, Mentions (4%)</option>
+        <option value="0.05">Polymarket: Sports, Economics, Culture, Weather, Other (5%)</option>
+        <option value="0.07p">Polymarket: Crypto (7%)</option>
+        <option value="0">Polymarket: Geopolitics (no fee)</option>
+        <option value="0.07">Kalshi: standard taker fee (7%)</option>
+        <option value="0n">No fee</option>
+      </select>
+      <p class="note" style="margin:6px 0 0">Fee per trade = rate × shares × price × (1 − price). Charged when you buy and again when you sell, if you take the price shown in the book.</p>
+    </div>
     <p class="err" id="err">The sell price must be lower than the buy price.</p>
   </div>
 
   <div class="card" id="out">
     <div class="note">Cash out one second after you buy and you get back</div>
     <div class="big" id="back">$87.50</div>
-    <div class="row"><span>Gone to the spread</span><b class="bad" id="lost">$12.50 (12.5%)</b></div>
+    <div class="row"><span>Total lost if you cash out right away</span><b class="bad" id="lost">$12.50</b></div>
+    <div class="row"><span>&nbsp;&nbsp;of that, to the spread</span><b id="lspread">$12.50</b></div>
+    <div class="row"><span>&nbsp;&nbsp;of that, platform fees (in + out)</span><b id="lfee">$0.00</b></div>
+    <div class="row"><span>Fee to get in</span><b id="fin">$0.00</b></div>
     <div class="row"><span>Shares you get</span><b id="shares">625</b></div>
-    <div class="row"><span>Market has to move before you break even</span><b id="be">+2.0¢</b></div>
-    <div class="row"><span>Payout if your side wins</span><b class="good" id="win">$625.00</b></div>
+    <div class="row"><span>Sell price you need to break even</span><b id="be">16.0¢</b></div>
+    <div class="row"><span>Payout if your side wins (held to the end)</span><b class="good" id="win">$625.00</b></div>
     <div class="row"><span>Implied odds you are paying for</span><b id="odds">16%</b></div>
   </div>
 
-  <p class="note">Assumes your whole bet fills at the best price. Big bets usually climb the order book and pay more. Some venues also charge fees on top. This is a math tool, not financial advice.</p>
+  <p class="note">Assumes your whole bet fills at the best price. Big bets usually climb the order book and pay more. Fee rates from the official Polymarket fees page and Kalshi fee schedule (checked Nov 2026); exact rounding may differ by a cent. This is a math tool, not financial advice.</p>
   <p class="note">Made by <a href="https://x.com/0ddscent" target="_blank" rel="noopener">@0ddscent</a>. We score AI models against prediction markets: <a href="./">see the track record</a>.</p>
 </main>
 <script>
@@ -65,19 +80,25 @@ const $=id=>document.getElementById(id);
 const usd=v=>'$'+v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
 function calc(){
   const ask=parseFloat($('ask').value)/100, bid=parseFloat($('bid').value)/100, stake=parseFloat($('stake').value);
+  const r=parseFloat($('plat').value)||0;
   const ok=ask>0&&ask<1&&bid>=0&&bid<ask&&stake>0;
   $('err').style.display=(ask>0&&bid>=ask)?'block':'none';
   $('out').style.opacity=ok?1:.4;
   if(!ok) return;
-  const shares=stake/ask, back=shares*bid, lost=stake-back;
+  const C=stake/ask, fee=(p)=>r*C*p*(1-p);
+  const fin=fee(ask), fout=fee(bid), back=C*bid-fout, spent=stake+fin, lost=spent-back;
   $('back').textContent=usd(back);
-  $('lost').textContent=usd(lost)+' ('+(lost/stake*100).toFixed(1)+'%)';
-  $('shares').textContent=shares.toLocaleString('en-US',{maximumFractionDigits:1});
-  $('be').textContent='+'+((ask-bid)*100).toFixed(1)+'¢';
-  $('win').textContent=usd(shares);
+  $('lost').textContent=usd(lost)+' ('+(lost/spent*100).toFixed(1)+'%)';
+  $('lspread').textContent=usd(C*(ask-bid));
+  $('lfee').textContent=usd(fin+fout);
+  $('fin').textContent=usd(fin);
+  let lo=bid,hi=1; for(let i=0;i<60;i++){const m=(lo+hi)/2; (C*m-fee(m)>=spent)?hi=m:lo=m;}
+  $('be').textContent=(C*hi-fee(hi)>=spent-1e-9 && hi<1)?(hi*100).toFixed(1)+'\u00a2':'not possible before it settles';
+  $('shares').textContent=C.toLocaleString('en-US',{maximumFractionDigits:1});
+  $('win').textContent=usd(C);
   $('odds').textContent=(ask*100).toFixed(1).replace(/\.0$/,'')+'%';
 }
-['ask','bid','stake'].forEach(i=>$(i).addEventListener('input',calc));
+['ask','bid','stake','plat'].forEach(i=>{$(i).addEventListener('input',calc);$(i).addEventListener('change',calc)});
 calc();
 </script>
 </body>
