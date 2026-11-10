@@ -30,6 +30,9 @@ input{width:100%;border:0;background:transparent;color:var(--ink);font:600 20px 
 .note{font-size:13px;color:var(--muted)}
 a{color:var(--accent)}
 .sel{width:100%;border:1px solid var(--line);border-radius:10px;padding:12px 10px;background:var(--bg);color:var(--ink);font:600 15px Inter,sans-serif}
+table.fees{width:100%;border-collapse:collapse;font-size:14px;margin-top:8px}
+table.fees td{padding:7px 0;border-top:1px solid var(--line)}
+table.fees td:last-child{text-align:right;font-weight:700}
 .err{color:var(--bad);font-weight:600;display:none}
 </style>
 </head>
@@ -45,7 +48,7 @@ a{color:var(--accent)}
       <div><label for="bid">Sell price (bid)</label><div class="inp"><input id="bid" type="number" step="0.1" min="0" max="99.9" value="14" inputmode="decimal"><span>¢</span></div></div>
       <div><label for="stake">Your bet</label><div class="inp"><span>$</span><input id="stake" type="number" step="1" min="1" value="100" inputmode="decimal"></div></div>
     </div>
-    <div style="margin-top:12px"><label for="plat">Platform fee</label>
+    <div style="margin-top:12px"><label for="plat">Platform fee*</label>
       <select id="plat" class="sel">
         <option value="0.04">Polymarket: Finance, Politics, Tech, Mentions (4%)</option>
         <option value="0.05">Polymarket: Sports, Economics, Culture, Weather, Other (5%)</option>
@@ -70,6 +73,19 @@ a{color:var(--accent)}
     <div class="row"><span>Sell price you need to break even</span><b id="be">16.0¢</b></div>
     <div class="row"><span>Payout if your side wins (held to the end)</span><b class="good" id="win">$625.00</b></div>
     <div class="row"><span>Implied odds you are paying for</span><b id="odds">16%</b></div>
+  </div>
+
+  <div class="card">
+    <div class="note" style="font-weight:700;color:var(--ink)">* Fee rates by platform and category (taker, Nov 2026)</div>
+    <table class="fees">
+      <tr><td>Polymarket: Crypto</td><td>7%</td></tr>
+      <tr><td>Polymarket: Sports, Economics, Culture, Weather, Other</td><td>5%</td></tr>
+      <tr><td>Polymarket: Finance, Politics, Tech, Mentions</td><td>4%</td></tr>
+      <tr><td>Polymarket: Geopolitics</td><td>0%</td></tr>
+      <tr><td>Kalshi: most markets</td><td>7%</td></tr>
+      <tr><td>Kalshi: some series</td><td>0%</td></tr>
+    </table>
+    <p class="note" style="margin:10px 0 0">The rate is not what you pay. Your fee as a share of your bet = rate × (1 − price). So a 4% rate costs 3.4% of your bet at 16¢, 2% at 50¢ and 0.2% at 95¢. Cheap contracts pay the most. If you post your own order and wait (maker), Polymarket charges nothing. Sources: <a href="https://docs.polymarket.com/trading/fees" target="_blank" rel="noopener">Polymarket fees</a>, <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">Kalshi fee schedule</a>.</p>
   </div>
 
   <p class="note">Assumes your whole bet fills at the best price. Big bets usually climb the order book and pay more. Fee rates from the official Polymarket fees page and Kalshi fee schedule (checked Nov 2026); exact rounding may differ by a cent. This is a math tool, not financial advice.</p>
