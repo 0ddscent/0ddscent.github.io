@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-13",
+  "updated": "2026-11-16",
   "calls": [
     {
       "id": "R001",
@@ -205,6 +205,23 @@
       "call_post": "https://x.com/0ddscent/status/2119152901763297475",
       "followup_post": "https://x.com/0ddscent/status/2121292136352006325",
       "polymarket": "https://polymarket.com/event/jensen-huang-announced-resignation-or-removal-by-december-31"
+    },
+    {
+      "id": "R016",
+      "posted": "2026-11-16",
+      "question": "Will NVIDIA announce its next permanent CEO before Feb 1, 2027?",
+      "resolves": "2027-02-01",
+      "source": "https://kalshi.com/markets/kxnvdaceodate",
+      "source_note": "Kalshi \"Before Feb 1, 2027\" at 46% when the models were asked on Nov 16. An interim or acting CEO does not count.",
+      "market": 0.46,
+      "claude": 0.24,
+      "chatgpt": 0.65,
+      "gemini": 0.32,
+      "grok": 0.35,
+      "crowd": null,
+      "outcome": null,
+      "call_post": null,
+      "followup_post": null
     }
   ]
 }
