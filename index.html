@@ -254,7 +254,7 @@ function render(data) {
 }
 
 
-fetch("data/calls.json").then(r => r.json()).then(render)
+fetch("data/calls.json?v=" + Date.now(), { cache: "no-store" }).then(r => r.json()).then(render)
   .catch(() => { document.getElementById("calls").textContent = "Could not load data."; });
 </script>
 </body>
