@@ -237,7 +237,7 @@
    "grok": 0.3,
    "crowd": null,
    "outcome": null,
-   "call_post": null,
+   "call_post": "https://x.com/0ddscent/status/2122705779828437283",
    "followup_post": null
   }
  ]
