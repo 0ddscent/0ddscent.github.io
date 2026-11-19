@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-17",
+ "updated": "2026-11-19",
  "calls": [
   {
    "id": "R001",
@@ -41,14 +41,14 @@
    "question": "Will Anthropic complete an IPO by Nov 30, 2026?",
    "resolves": "2026-11-30",
    "source": "https://polymarket.com/event/anthropic-ipo-by",
-   "source_note": null,
+   "source_note": "Anthropic began trading on Nasdaq on Nov 19, 2026.",
    "market": 0.62,
    "claude": 0.64,
    "chatgpt": 0.25,
    "gemini": 0.72,
    "grok": 0.68,
    "crowd": null,
-   "outcome": null,
+   "outcome": 1,
    "call_post": "https://x.com/0ddscent/status/2112506206552039778",
    "followup_post": "https://x.com/0ddscent/status/2112506565647302974"
   },
@@ -229,16 +229,16 @@
    "question": "Will Anthropic's market cap at the close of its first day of trading be above $1.5 trillion?",
    "resolves": "2026-11-19",
    "source": "https://polymarket.com/event/anthropic-ipo-closing-market-cap-above",
-   "source_note": "Polymarket \"above $1.5T\" at 27% when the models were asked on Nov 17. Rules use closing price times shares outstanding. Trading expected Nov 19; resolves on the actual first trading day.",
+   "source_note": "Polymarket \"above $1.5T\" at 27% when the models were asked on Nov 17. Rules use closing price times shares outstanding. Anthropic priced at $83, opened at $111.50 and closed Nov 19 at $97.17, about $1.27T.",
    "market": 0.27,
    "claude": 0.55,
    "chatgpt": 0.65,
    "gemini": 0.18,
    "grok": 0.3,
    "crowd": null,
-   "outcome": null,
+   "outcome": 0,
    "call_post": "https://x.com/0ddscent/status/2122705779828437283",
-   "followup_post": null
+   "followup_post": "https://x.com/0ddscent/status/2123538882084102199"
   }
  ]
 }
