@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-19",
+ "updated": "2026-11-20",
  "calls": [
   {
    "id": "R001",
@@ -239,6 +239,23 @@
    "outcome": 0,
    "call_post": "https://x.com/0ddscent/status/2122705779828437283",
    "followup_post": "https://x.com/0ddscent/status/2123538882084102199"
+  },
+  {
+   "id": "R018",
+   "posted": "2026-11-20",
+   "question": "Will Bitcoin (BTC/USDT on Binance) trade at or below $60,000 at any point before the end of November 2026?",
+   "resolves": "2026-11-30",
+   "source": "https://polymarket.com/event/what-price-will-bitcoin-hit-in-november-2026",
+   "source_note": "Polymarket \"dip to $60,000 in November\" at 68% when the models were asked on the morning of Nov 20, and 95% when the post went out. Resolves YES if any Binance BTC/USDT 1-minute candle in November has a low at or below $60,000.",
+   "market": 0.68,
+   "claude": 0.78,
+   "chatgpt": 0.65,
+   "gemini": 0.72,
+   "grok": 0.7,
+   "crowd": null,
+   "outcome": null,
+   "call_post": "https://x.com/0ddscent/status/2123804368054947846",
+   "followup_post": null
   }
  ]
 }
